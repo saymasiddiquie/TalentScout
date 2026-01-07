@@ -32,7 +32,7 @@ pip install -r requirements.txt
 Copy `.env.example` to `.env` (optional) and set:
 - `OPENAI_API_KEY`
 - `OPENAI_BASE_URL` (default: `https://api.openai.com/v1`)
-- `OPENAI_MODEL` (default: `gpt-4o-mini`)
+- `OPENAI_MODEL` (default: `gpt-3.5-turbo`)
 
 For local LLMs via Ollama:
 - `OPENAI_BASE_URL=http://localhost:11434/v1`
