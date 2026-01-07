@@ -31,13 +31,10 @@ def analyze_sentiment(text: str) -> str:
 def detect_language_input(user_text: str):
     """Detects language choice from user input."""
     text = user_text.lower().strip()
-    
-    # Map common keywords to language keys
     if any(x in text for x in ["english", "eng", "inglés"]): return "English"
     if any(x in text for x in ["spanish", "español", "esp", "castellano"]): return "Spanish"
     if any(x in text for x in ["french", "français", "francais", "french"]): return "French"
     if any(x in text for x in ["hindi", "hind", "हिंदी"]): return "Hindi"
-    
     return None
 
 def persist_candidate(session_id: str, profile: dict, chat_history: list):
@@ -61,7 +58,6 @@ def chat_completion(messages, model="gpt-4o-mini", temperature=0.7, max_tokens=1
         response = client.chat.completions.create(model=model, messages=messages, temperature=temperature, max_tokens=max_tokens)
         return response.choices[0].message.content
     except Exception as e:
-        print(f"LLM Error: {e}")
         return None
 
 # ==========================================
@@ -139,7 +135,6 @@ if "asked_questions_set" not in st.session_state: st.session_state.asked_questio
 if "phase" not in st.session_state: st.session_state.phase = "personal"
 if "tech_start_idx" not in st.session_state: st.session_state.tech_start_idx = 0
 if "language" not in st.session_state: st.session_state.language = "English"
-# NEW STATE: To track if language is selected via chat
 if "language_confirmed" not in st.session_state: st.session_state.language_confirmed = False
 
 # Defaults
@@ -154,7 +149,6 @@ with st.sidebar:
     st.image("https://cdn-icons-png.flaticon.com/512/4712/4712035.png", width=60)
     st.title("Settings")
     
-    # You can still use the sidebar, but chat takes precedence
     st.session_state.language = st.selectbox("Current Language", list(TRANSLATIONS.keys()), index=list(TRANSLATIONS.keys()).index(st.session_state.language))
     
     st.markdown("---")
@@ -237,13 +231,32 @@ st.markdown(f"<div class='header-wrap {header_class}'><div class='title'>{header
 def get_text(key): return TRANSLATIONS.get(st.session_state.language, TRANSLATIONS["English"]).get(key, "")
 
 def generate_local_fallback_question(tech_list):
+    """Expanded templates to reduce duplication chance."""
     if not tech_list: tech_list = ["software development", "problem solving"]
     tech = random.choice(tech_list)
-    return f"How do you handle debugging in {tech}?"
+    templates = [
+        f"How do you handle debugging in {tech}?",
+        f"What is your approach to unit testing in {tech}?",
+        f"Explain a challenging bug you fixed in {tech}.",
+        f"How do you manage dependencies in {tech}?",
+        f"What are some performance pitfalls in {tech}?",
+        f"Describe a design pattern you use in {tech}.",
+        f"How do you ensure code quality in {tech} projects?",
+        f"What is your favorite feature of {tech} and why?",
+        f"How does {tech} handle memory management?",
+        f"Explain the difference between synchronous and asynchronous operations in {tech}."
+    ]
+    return random.choice(templates)
 
 def generate_unique_question(tech_stack, history):
+    """
+    Robust generator that GUARANTEES a new question string 
+    to force state update and prevent infinite loops.
+    """
     lang = st.session_state.language
     tech_list = [t.strip() for t in tech_stack.replace(",", " ").split() if t.strip()] if tech_stack else ["General Programming"]
+    
+    # 1. Try LLM (5 attempts)
     for _ in range(5):
         try:
             tech = random.choice(tech_list)
@@ -251,7 +264,17 @@ def generate_unique_question(tech_stack, history):
             resp = chat_completion([{"role": "system", "content": prompt}], model=st.session_state.model, max_tokens=60)
             if resp and resp not in history: return resp
         except: pass
-    return generate_local_fallback_question(tech_list)
+        
+    # 2. Try Fallback (10 attempts to find non-duplicate)
+    for _ in range(10):
+        fallback = generate_local_fallback_question(tech_list)
+        if fallback not in history:
+            return fallback
+
+    # 3. Last Resort: Force uniqueness by appending random ID (prevents infinite "Q1" loop)
+    # This ensures the Set grows, len increases, and Q number advances.
+    base_q = generate_local_fallback_question(tech_list)
+    return f"{base_q} (Variant {random.randint(100, 999)})"
 
 def get_next_response(user_text):
     p = st.session_state.profile
