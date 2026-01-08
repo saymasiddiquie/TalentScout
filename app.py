@@ -167,7 +167,7 @@ with st.sidebar:
         st.rerun()
 
 # ==========================================
-# 5. UI STYLING (UPDATED COLORS & HEADER ICONS)
+# 5. UI STYLING (DARK SIDEBAR + WHITE SLIDER)
 # ==========================================
 st.markdown("""
 <style>
@@ -185,9 +185,9 @@ st.markdown("""
   .shooting-star { position: absolute; top: -50px; left: 20%; width: 4px; height: 4px; background: #fff; border-radius: 50%; box-shadow: 0 0 0 4px rgba(255,255,255,0.1), 0 0 0 8px rgba(255,255,255,0.1), 0 0 20px rgba(255,255,255,1); animation: shoot 7s linear infinite; opacity: 0; }
   .shooting-star::before { content: ''; position: absolute; top: 50%; transform: translateY(-50%); width: 200px; height: 1px; background: linear-gradient(90deg, #fff, transparent); right: 1px; }
   
-  /* --- SIDEBAR STYLING --- */
+  /* --- SIDEBAR STYLING (DARK GLASS) --- */
   [data-testid="stSidebar"] { 
-      background-color: rgba(10, 14, 23, 0.85) !important; /* Dark Blue Glass */
+      background-color: rgba(10, 14, 23, 0.85) !important; 
       border-right: 1px solid rgba(255,255,255,0.1);
       backdrop-filter: blur(10px);
   }
@@ -196,26 +196,34 @@ st.markdown("""
       color: #e2e8f0 !important;
   }
   [data-testid="stSidebar"] input {
-      color: #0f172a !important; /* Input text remains dark for readability */
+      color: #0f172a !important; 
+  }
+
+  /* --- SLIDER / PROGRESS BAR COLOR FIX --- */
+  /* This targets the filled portion of the st.progress bar */
+  div[data-testid="stProgress"] > div > div > div > div {
+      background-color: #ffffff !important;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  }
+  /* This targets the empty track */
+  div[data-testid="stProgress"] > div > div {
+      background-color: rgba(255, 255, 255, 0.2);
   }
 
   /* --- TOP HEADER ICONS FIX --- */
-  /* Make hamburger menu and other icons white */
   header[data-testid="stHeader"] svg {
       fill: white !important;
       color: white !important;
   }
-  /* Specifically target the action elements (top right menu) */
   [data-testid="stHeaderActionElements"] svg, [data-testid="stHeaderActionElements"] span {
       fill: white !important;
       color: white !important;
   }
-  /* Style the 'Deploy' button text */
   .stDeployButton {
       color: white !important;
   }
 
-  /* Header & Chips */
+  /* Chat & Chips */
   .header-wrap { padding: 30px; border-radius: 20px; background: linear-gradient(135deg, rgba(14, 165, 233, 0.9) 0%, rgba(99, 102, 241, 0.9) 100%); backdrop-filter: blur(10px); border: 2px solid rgba(255,255,255,0.3); text-align: center; margin-bottom: 30px; box-shadow: 0 0 30px rgba(99, 102, 241, 0.5); }
   .header-wrap.technical { background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%); box-shadow: 0 0 30px rgba(236, 72, 153, 0.5); }
   .title { font-size: 3rem; font-weight: 900; margin-bottom: 5px; color: white; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
@@ -224,7 +232,6 @@ st.markdown("""
   .chip { padding: 8px 16px; border-radius: 50px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); font-size: 1rem; color: white; }
   .chip.filled { background: linear-gradient(90deg, #00c6ff, #0072ff); border: 1px solid #00c6ff; box-shadow: 0 0 15px rgba(0, 198, 255, 0.6); font-weight: bold; transform: scale(1.05); }
 
-  /* Chat */
   [data-testid="stChatMessage"] { background-color: transparent !important; border: none !important; box-shadow: none !important; padding: 0 !important; margin-bottom: 10px; overflow: visible !important; }
   .chat-bubble { padding: 1.5rem; border-radius: 18px; position: relative; display: inline-block; max-width: 100%; box-shadow: 0 4px 15px rgba(0,0,0,0.2); backdrop-filter: blur(5px); font-size: 1.1rem; line-height: 1.5; }
   .chat-bubble.assistant { background: rgba(240, 248, 255, 0.95); color: #0f172a; border-top-left-radius: 4px; border: 1px solid rgba(255,255,255,0.8); }
