@@ -167,7 +167,7 @@ with st.sidebar:
         st.rerun()
 
 # ==========================================
-# 5. UI STYLING (UPDATED COLORS & HEADER ICONS)
+# 5. UI STYLING (UPDATED: White Sidebar)
 # ==========================================
 st.markdown("""
 <style>
@@ -185,22 +185,26 @@ st.markdown("""
   .shooting-star { position: absolute; top: -50px; left: 20%; width: 4px; height: 4px; background: #fff; border-radius: 50%; box-shadow: 0 0 0 4px rgba(255,255,255,0.1), 0 0 0 8px rgba(255,255,255,0.1), 0 0 20px rgba(255,255,255,1); animation: shoot 7s linear infinite; opacity: 0; }
   .shooting-star::before { content: ''; position: absolute; top: 50%; transform: translateY(-50%); width: 200px; height: 1px; background: linear-gradient(90deg, #fff, transparent); right: 1px; }
   
-  /* --- SIDEBAR STYLING --- */
+  /* --- SIDEBAR STYLING (WHITE) --- */
   [data-testid="stSidebar"] { 
-      background-color: rgba(10, 14, 23, 0.85) !important; /* Dark Blue Glass */
-      border-right: 1px solid rgba(255,255,255,0.1);
-      backdrop-filter: blur(10px);
+      background-color: #ffffff !important; /* White Background */
+      border-right: 1px solid #e5e7eb;
   }
-  /* Force all sidebar text to be white */
+  /* Force all sidebar text to be dark blue/black for readability */
   [data-testid="stSidebar"] * {
-      color: #e2e8f0 !important;
+      color: #0f172a !important;
   }
   [data-testid="stSidebar"] input {
-      color: #0f172a !important; /* Input text remains dark for readability */
+      color: #0f172a !important; 
+  }
+  /* Force Icons INSIDE the sidebar (like close button) to be dark */
+  [data-testid="stSidebar"] svg {
+      fill: #0f172a !important;
+      color: #0f172a !important;
   }
 
   /* --- TOP HEADER ICONS FIX --- */
-  /* Make hamburger menu and other icons white */
+  /* These are floating over the Dark Sky, so they must stay WHITE */
   header[data-testid="stHeader"] svg {
       fill: white !important;
       color: white !important;
