@@ -421,4 +421,10 @@ else:
 # ==========================================
 if st.session_state.ended:
     transcript = json.dumps({"profile": st.session_state.profile, "chat": st.session_state.messages, "timestamp": str(datetime.datetime.now())}, indent=2)
-    st.download_button(label=get_text("download"), data=transcript, file_name=f"interview_{st.session_state.profile.get('full_name','candidate')}.json", mime="application/json", type="primary")"primary")
+    st.download_button(
+        label=get_text("download"),
+        data=transcript,
+        file_name=f"interview_{st.session_state.profile.get('full_name','candidate')}.json",
+        mime="application/json",
+        type="primary"
+    )
