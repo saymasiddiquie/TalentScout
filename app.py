@@ -167,7 +167,7 @@ with st.sidebar:
         st.rerun()
 
 # ==========================================
-# 5. UI STYLING (UPDATED COLORS)
+# 5. UI STYLING (UPDATED COLORS & HEADER ICONS)
 # ==========================================
 st.markdown("""
 <style>
@@ -185,7 +185,7 @@ st.markdown("""
   .shooting-star { position: absolute; top: -50px; left: 20%; width: 4px; height: 4px; background: #fff; border-radius: 50%; box-shadow: 0 0 0 4px rgba(255,255,255,0.1), 0 0 0 8px rgba(255,255,255,0.1), 0 0 20px rgba(255,255,255,1); animation: shoot 7s linear infinite; opacity: 0; }
   .shooting-star::before { content: ''; position: absolute; top: 50%; transform: translateY(-50%); width: 200px; height: 1px; background: linear-gradient(90deg, #fff, transparent); right: 1px; }
   
-  /* --- SIDEBAR STYLING FIX --- */
+  /* --- SIDEBAR STYLING --- */
   [data-testid="stSidebar"] { 
       background-color: rgba(10, 14, 23, 0.85) !important; /* Dark Blue Glass */
       border-right: 1px solid rgba(255,255,255,0.1);
@@ -201,15 +201,18 @@ st.markdown("""
 
   /* --- TOP HEADER ICONS FIX --- */
   /* Make hamburger menu and other icons white */
-  [data-testid="stHeader"] svg {
+  header[data-testid="stHeader"] svg {
       fill: white !important;
+      color: white !important;
   }
-  [data-testid="stHeaderActionElements"] svg {
+  /* Specifically target the action elements (top right menu) */
+  [data-testid="stHeaderActionElements"] svg, [data-testid="stHeaderActionElements"] span {
       fill: white !important;
+      color: white !important;
   }
+  /* Style the 'Deploy' button text */
   .stDeployButton {
       color: white !important;
-      border: 1px solid rgba(255,255,255,0.3) !important;
   }
 
   /* Header & Chips */
