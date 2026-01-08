@@ -167,20 +167,51 @@ with st.sidebar:
         st.rerun()
 
 # ==========================================
-# 5. UI STYLING
+# 5. UI STYLING (UPDATED COLORS)
 # ==========================================
 st.markdown("""
 <style>
   @keyframes twinkle {0%,100%{opacity:.8}50%{opacity:.3}}
   @keyframes shoot { 0% { transform: rotate(45deg) translateX(0); opacity: 0; } 15% { opacity: 1; } 100% { transform: rotate(45deg) translateX(120vw); opacity: 0; } }
+  
+  /* CORE TRANSPARENCY */
   .stApp { background-color: transparent !important; }
   header[data-testid="stHeader"] { background-color: transparent !important; }
   div[data-testid="stBottom"] { background-color: transparent !important; border-top: none !important; }
+  
+  /* BACKGROUND ANIMATION */
   .bg-sky { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; overflow: hidden; background: linear-gradient(to bottom, #020105 0%, #0f172a 100%); }
   .stars { position:absolute; inset:0; background-image: radial-gradient(1.5px 1.5px at 10% 10%, white 50%, transparent 51%), radial-gradient(1px 1px at 20% 80%, white 50%, transparent 51%); background-size: 550px 550px; animation: twinkle 4s ease-in-out infinite alternate; opacity: 0.8; }
   .shooting-star { position: absolute; top: -50px; left: 20%; width: 4px; height: 4px; background: #fff; border-radius: 50%; box-shadow: 0 0 0 4px rgba(255,255,255,0.1), 0 0 0 8px rgba(255,255,255,0.1), 0 0 20px rgba(255,255,255,1); animation: shoot 7s linear infinite; opacity: 0; }
   .shooting-star::before { content: ''; position: absolute; top: 50%; transform: translateY(-50%); width: 200px; height: 1px; background: linear-gradient(90deg, #fff, transparent); right: 1px; }
   
+  /* --- SIDEBAR STYLING FIX --- */
+  [data-testid="stSidebar"] { 
+      background-color: rgba(10, 14, 23, 0.85) !important; /* Dark Blue Glass */
+      border-right: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+  }
+  /* Force all sidebar text to be white */
+  [data-testid="stSidebar"] * {
+      color: #e2e8f0 !important;
+  }
+  [data-testid="stSidebar"] input {
+      color: #0f172a !important; /* Input text remains dark for readability */
+  }
+
+  /* --- TOP HEADER ICONS FIX --- */
+  /* Make hamburger menu and other icons white */
+  [data-testid="stHeader"] svg {
+      fill: white !important;
+  }
+  [data-testid="stHeaderActionElements"] svg {
+      fill: white !important;
+  }
+  .stDeployButton {
+      color: white !important;
+      border: 1px solid rgba(255,255,255,0.3) !important;
+  }
+
   /* Header & Chips */
   .header-wrap { padding: 30px; border-radius: 20px; background: linear-gradient(135deg, rgba(14, 165, 233, 0.9) 0%, rgba(99, 102, 241, 0.9) 100%); backdrop-filter: blur(10px); border: 2px solid rgba(255,255,255,0.3); text-align: center; margin-bottom: 30px; box-shadow: 0 0 30px rgba(99, 102, 241, 0.5); }
   .header-wrap.technical { background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%); box-shadow: 0 0 30px rgba(236, 72, 153, 0.5); }
@@ -199,7 +230,6 @@ st.markdown("""
   .sent-positive { background-color: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid #10b981; }
   .sent-neutral { background-color: rgba(148, 163, 184, 0.2); color: #cbd5e1; border: 1px solid #94a3b8; }
   .sent-negative { background-color: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid #ef4444; }
-  [data-testid="stSidebar"] { background-color: #f0f2f6; border-right: 1px solid #e5e7eb; }
 </style>
 <div class='bg-sky'><div class='stars'></div><div class='shooting-star'></div></div>
 """, unsafe_allow_html=True)
@@ -391,4 +421,4 @@ else:
 # ==========================================
 if st.session_state.ended:
     transcript = json.dumps({"profile": st.session_state.profile, "chat": st.session_state.messages, "timestamp": str(datetime.datetime.now())}, indent=2)
-    st.download_button(label=get_text("download"), data=transcript, file_name=f"interview_{st.session_state.profile.get('full_name','candidate')}.json", mime="application/json", type="primary")
+    st.download_button(label=get_text("download"), data=transcript, file_name=f"interview_{st.session_state.profile.get('full_name','candidate')}.json", mime="application/json", type="primary")"primary")
