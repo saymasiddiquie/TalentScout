@@ -167,7 +167,7 @@ with st.sidebar:
         st.rerun()
 
 # ==========================================
-# 5. UI STYLING (FINAL COLOR FIXES)
+# 5. UI STYLING (IMPROVED COLORS)
 # ==========================================
 st.markdown("""
 <style>
@@ -187,16 +187,33 @@ st.markdown("""
   
   /* --- SIDEBAR STYLING (DARK GLASS) --- */
   [data-testid="stSidebar"] { 
-      background-color: rgba(10, 14, 23, 0.85) !important; 
+      background-color: rgba(10, 14, 23, 0.92) !important; 
       border-right: 1px solid rgba(255,255,255,0.1);
       backdrop-filter: blur(10px);
   }
-  /* Force all sidebar text to be white */
-  [data-testid="stSidebar"] * {
-      color: #e2e8f0 !important;
-  }
+  
+  /* --- INPUT FIELDS FIX (Light Background for readability) --- */
   [data-testid="stSidebar"] input {
+      background-color: #f8fafc !important; 
       color: #0f172a !important; 
+      border: 1px solid #cbd5e1 !important;
+  }
+  [data-testid="stSidebar"] input:focus {
+      border: 1px solid #60a5fa !important;
+      box-shadow: 0 0 0 2px rgba(96,165,250,0.4) !important;
+  }
+
+  /* --- LABELS & TEXT --- */
+  [data-testid="stSidebar"] label, [data-testid="stSidebar"] .stMarkdown, [data-testid="stSidebar"] h1, [data-testid="stSidebar"] h2, [data-testid="stSidebar"] h3 {
+      color: #f1f5f9 !important;
+  }
+  [data-testid="stSidebar"] .caption {
+      color: #94a3b8 !important;
+  }
+  /* Checkbox specific fix */
+  [data-testid="stSidebar"] .stCheckbox label {
+      color: #e5e7eb !important;
+      font-weight: 500;
   }
 
   /* --- SLIDER / PROGRESS BAR COLOR FIX --- */
@@ -208,30 +225,15 @@ st.markdown("""
       background-color: rgba(255, 255, 255, 0.2);
   }
 
-  /* --- HEADER ICONS FIX (TOP RIGHT & SIDEBAR TOGGLE) --- */
-  
-  /* 1. Header Action Icons (Share, Star, Edit, GitHub menu) */
-  [data-testid="stHeaderActionElements"] svg, 
-  [data-testid="stHeaderActionElements"] span, 
-  [data-testid="stHeaderActionElements"] a {
+  /* --- TOP HEADER ICONS FIX --- */
+  header[data-testid="stHeader"] svg {
       fill: white !important;
       color: white !important;
   }
-  
-  /* 2. Sidebar Collapse/Expand Button (The '>>' slider) */
-  [data-testid="collapsedControl"] svg,
-  [data-testid="collapsedControl"] {
+  [data-testid="stHeaderActionElements"] svg, [data-testid="stHeaderActionElements"] span {
       fill: white !important;
       color: white !important;
   }
-  
-  /* 3. Hamburger Menu (Top Left) */
-  [data-testid="stHeader"] button[title="View app in Streamlit Cloud"] svg,
-  [data-testid="stHeader"] button[title="Show menu"] svg {
-      fill: white !important;
-      color: white !important;
-  }
-  
   .stDeployButton {
       color: white !important;
   }
@@ -246,8 +248,9 @@ st.markdown("""
   .chip.filled { background: linear-gradient(90deg, #00c6ff, #0072ff); border: 1px solid #00c6ff; box-shadow: 0 0 15px rgba(0, 198, 255, 0.6); font-weight: bold; transform: scale(1.05); }
 
   [data-testid="stChatMessage"] { background-color: transparent !important; border: none !important; box-shadow: none !important; padding: 0 !important; margin-bottom: 10px; overflow: visible !important; }
+  /* Updated Assistant Bubble Color to be softer */
   .chat-bubble { padding: 1.5rem; border-radius: 18px; position: relative; display: inline-block; max-width: 100%; box-shadow: 0 4px 15px rgba(0,0,0,0.2); backdrop-filter: blur(5px); font-size: 1.1rem; line-height: 1.5; }
-  .chat-bubble.assistant { background: rgba(240, 248, 255, 0.95); color: #0f172a; border-top-left-radius: 4px; border: 1px solid rgba(255,255,255,0.8); }
+  .chat-bubble.assistant { background: rgba(226, 232, 240, 0.9); color: #0f172a; border-top-left-radius: 4px; border: 1px solid rgba(255,255,255,0.8); }
   .chat-bubble.user { background: rgba(15, 17, 42, 0.9); color: #f1f5f9; border-top-right-radius: 4px; border: 1px solid rgba(100, 150, 255, 0.3); }
   .sent-badge { font-size: 0.75rem; padding: 3px 8px; border-radius: 8px; margin-top: 8px; display: inline-block; font-weight: bold; opacity: 0.9; }
   .sent-positive { background-color: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid #10b981; }
